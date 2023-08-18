@@ -25,7 +25,9 @@ export default class NewBill {
     formData.append('file', file)
     formData.append('email', email)
 
-    this.store
+    // line below checks authorized extensions in backend's file ./controllers/bill.js before upload
+    if (fileName.match(/\.(jpg|jpeg|png|gif)$/)) {
+      this.store
       .bills()
       .create({
         data: formData,
@@ -39,6 +41,10 @@ export default class NewBill {
         this.fileUrl = fileUrl
         this.fileName = fileName
       }).catch(error => console.error(error))
+    } else {
+      this.document.querySelector(`input[data-testid="file"]`).value = null
+      alert('Wrong file format')
+    }
   }
   handleSubmit = e => {
     e.preventDefault()
