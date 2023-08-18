@@ -145,12 +145,12 @@ export default class {
       this.counter ++
     }
 
+    // add container id to avoid adding event multiple time to DOM elements in other containers
     bills.forEach(bill => {
-      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
+      $(`#status-bills-container${this.index} #open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
     })
 
     return bills
-
   }
 
   getBillsAllUsers = () => {
