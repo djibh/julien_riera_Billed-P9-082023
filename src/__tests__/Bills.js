@@ -47,7 +47,7 @@ describe("Given I am connected as an employee", () => {
           document.body.innerHTML = ROUTES({ pathname });
         };
   
-        const billsContent = new Bills({
+        const billsController = new Bills({
           document,
           onNavigate,
           store: null,
@@ -56,12 +56,35 @@ describe("Given I am connected as an employee", () => {
         });
   
         const newBillBtn = screen.getByTestId("btn-new-bill");
-        const handleClickNewBill = jest.fn(billsContent.handleClickNewBill);
+        const handleClickNewBill = jest.fn(billsController.handleClickNewBill);
         newBillBtn.addEventListener("click", handleClickNewBill);
         userEvent.click(newBillBtn);
   
         expect(handleClickNewBill).toHaveBeenCalled();
         expect(screen.getByTestId("form-new-bill")).toBeTruthy();
+      });
+    });
+
+    describe("When I click on eye icon button", () => {
+      test("Then the document modal should be displayed", () => {
+        const onNavigate = (pathname) => { document.body.innerHTML = ROUTES({ pathname }) };
+        document.body.innerHTML = BillsUI({ data: bills });
+
+        const billsController = new Bills({
+          document,
+          onNavigate,
+          store: null,
+          localStorage: window.localStorage,
+        });
+
+        const eyeIcons = screen.getAllByTestId('icon-eye');
+        $.fn.modal = jest.fn()
+        eyeIcons.forEach(icon => {
+          const handleClickIconEye = jest.fn(billsController.handleClickIconEye(icon));
+          icon.addEventListener('click', handleClickIconEye);
+          userEvent.click(icon);
+          expect(handleClickIconEye).toHaveBeenCalled();
+        })
       });
     });
   })
@@ -76,9 +99,8 @@ describe("Given I am connected as an employee", () => {
       router()
       window.onNavigate(ROUTES_PATH.Bills)
       await waitFor(() => screen.getByText("Mes notes de frais"))
-      expect(screen.getByText("Mes notes de frais"))
-      expect(screen.getByTestId("tbody")).toBeTruthy()
-      expect(screen.getByTestId("btn-new-bill")).toBeTruthy()
+      expect(screen.getByTestId("tbody")).toBeInTheDocument()
+      expect(screen.getByTestId("btn-new-bill")).toBeInTheDocument()
       const rows = screen.getAllByTestId('icon-eye')
       rows.forEach((row) => expect(row).toBeInTheDocument())
     })
