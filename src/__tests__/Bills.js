@@ -43,9 +43,7 @@ describe("Given I am connected as an employee", () => {
 
     describe('When I am on Bills page and I click on the new bill button', () => {
       test('Then I should navigate to newBill page', () => {
-        const onNavigate = (pathname) => {
-          document.body.innerHTML = ROUTES({ pathname });
-        };
+        const onNavigate = (pathname) => { document.body.innerHTML = ROUTES({ pathname }) };
   
         const billsController = new Bills({
           document,
@@ -61,7 +59,7 @@ describe("Given I am connected as an employee", () => {
         userEvent.click(newBillBtn);
   
         expect(handleClickNewBill).toHaveBeenCalled();
-        expect(screen.getByTestId("form-new-bill")).toBeTruthy();
+        expect(screen.getByTestId("form-new-bill")).toBeInTheDocument();
       });
     });
 
