@@ -34,5 +34,14 @@ describe("Given I am connected as an employee", () => {
       const newBillForm = screen.getByTestId('form-new-bill')
       expect(newBillForm).toBeInTheDocument()
     })
+
+    test("Then bill type should be a select input with 7 options", () => {
+      const html = NewBillUI()
+      document.body.innerHTML = html
+      const expenseTypeSelect = screen.getByTestId('expense-type')
+      const optionsList = screen.getAllByRole('option')
+      expect(expenseTypeSelect).toBeInTheDocument()
+      expect(optionsList).toHaveLength(7)
+    })
   })
 })
