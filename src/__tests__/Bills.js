@@ -43,12 +43,10 @@ describe("Given I am connected as an employee", () => {
 
     describe('When I am on Bills page and I click on the new bill button', () => {
       test('Then I should navigate to newBill page', () => {
-        // DOM construction
         const onNavigate = (pathname) => {
           document.body.innerHTML = ROUTES({ pathname });
         };
   
-        // init bills display
         const billsContent = new Bills({
           document,
           onNavigate,
@@ -57,13 +55,11 @@ describe("Given I am connected as an employee", () => {
           localStorage: window.localStorage,
         });
   
-        // handle click event
         const newBillBtn = screen.getByTestId("btn-new-bill");
         const handleClickNewBill = jest.fn(billsContent.handleClickNewBill);
         newBillBtn.addEventListener("click", handleClickNewBill);
         userEvent.click(newBillBtn);
   
-        // expected results
         expect(handleClickNewBill).toHaveBeenCalled();
         expect(screen.getByTestId("form-new-bill")).toBeTruthy();
       });
@@ -79,11 +75,12 @@ describe("Given I am connected as an employee", () => {
       document.body.append(root)
       router()
       window.onNavigate(ROUTES_PATH.Bills)
-      // expect(screen.getByText("Mes notes de frais"))
-      // expect(screen.getByTestId("tbody")).toBeTruthy()
-      // expect(screen.getByTestId("btn-new-bill")).toBeTruthy()
-      // const rows = screen.getAllByTestId('icon-eye')
-      // expect(rows).toBeInTheDocument
+      await waitFor(() => screen.getByText("Mes notes de frais"))
+      expect(screen.getByText("Mes notes de frais"))
+      expect(screen.getByTestId("tbody")).toBeTruthy()
+      expect(screen.getByTestId("btn-new-bill")).toBeTruthy()
+      const rows = screen.getAllByTestId('icon-eye')
+      rows.forEach((row) => expect(row).toBeInTheDocument())
     })
   })
 
