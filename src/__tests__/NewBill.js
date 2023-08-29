@@ -31,6 +31,8 @@ describe("Given I am connected as an employee", () => {
       const html = NewBillUI()
       document.body.innerHTML = html
       expect(screen.getByText('Envoyer une note de frais')).toBeInTheDocument()
+      const newBillForm = screen.getByTestId('form-new-bill')
+      expect(newBillForm).toBeInTheDocument()
     })
   })
 })
