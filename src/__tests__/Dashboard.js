@@ -275,7 +275,6 @@ describe("Given I am a user connected as Admin", () => {
       router()
     })
     test("fetches bills from an API and fails with 404 message error", async () => {
-
       mockStore.bills.mockImplementationOnce(() => {
         return {
           list : () =>  {
@@ -289,7 +288,6 @@ describe("Given I am a user connected as Admin", () => {
     })
 
     test("fetches messages from an API and fails with 500 message error", async () => {
-
       mockStore.bills.mockImplementationOnce(() => {
         return {
           list : () =>  {
