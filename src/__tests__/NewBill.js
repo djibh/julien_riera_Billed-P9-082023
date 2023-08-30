@@ -2,14 +2,17 @@
  * @jest-environment jsdom
  */
 
-import { screen, waitFor, fireEvent } from "@testing-library/dom"
-import NewBillUI from "../views/NewBillUI.js"
+import { screen, waitFor, fireEvent } from "@testing-library/dom";
+import NewBillUI from "../views/NewBillUI.js";
+import BillsUI from "../views/BillsUI.js";
 import { ROUTES_PATH} from "../constants/routes.js";
 import {localStorageMock} from "../__mocks__/localStorage.js";
 import router from "../app/Router.js";
 import "@testing-library/jest-dom"
 import NewBill from "../containers/NewBill.js";
+import mockStore from "../__mocks__/store";
 import userEvent from "@testing-library/user-event";
+
 
 describe("Given I am connected as an employee", () => {
   describe("When I am on NewBill Page", () => {
@@ -70,7 +73,26 @@ describe("Given I am connected as an employee", () => {
       })
       
       expect(handleChangeFile).toHaveBeenCalled();
-      expect(window.alert).toHaveBeenCalled()
+      expect(window.alert).toHaveBeenCalledWith("Wrong file format");
+    })
+  })
+  describe('Given I am connected as an employee on NewBill', () => {
+    describe('When I submit the form', () => {
+      test('Then it should create a new bill', async () => {
+
+        document.body.innerHTML = NewBillUI()
+        const mockBill = new NewBill({ document, onNavigate, store: mockStore, localStorage: window.localStorage })
+        const handleSubmitSpy = jest.spyOn(mockBill, 'handleSubmit')
+        const form = screen.getByTestId('form-new-bill')
+        const submitBtn = form.querySelector('#btn-send-bill')
+        const updateBillSpy = jest.spyOn(mockBill, 'updateBill')
+
+        form.addEventListener('submit', ((event) => mockBill.handleSubmit(event)))
+        userEvent.click(submitBtn)
+
+        expect(handleSubmitSpy).toHaveBeenCalled()
+        expect(updateBillSpy).toHaveBeenCalled()
+      })
     })
   })
 })
