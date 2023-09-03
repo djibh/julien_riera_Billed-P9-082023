@@ -2,14 +2,14 @@
  * @jest-environment jsdom
  */
 
-import {screen, waitFor} from "@testing-library/dom"
-import BillsUI from "../views/BillsUI.js"
+import {screen, waitFor} from "@testing-library/dom";
+import BillsUI from "../views/BillsUI.js";
 import Bills from "../containers/Bills.js";
 import { bills } from "../fixtures/bills.js"
 import { ROUTES, ROUTES_PATH} from "../constants/routes.js";
 import {localStorageMock} from "../__mocks__/localStorage.js";
 import '@testing-library/jest-dom';
-import mockStore from "../__mocks__/store"
+import mockStore from "../__mocks__/store";
 import router from "../app/Router.js";
 import userEvent from "@testing-library/user-event";
 
@@ -43,9 +43,7 @@ describe("Given I am connected as an employee", () => {
 
     describe('When I am on Bills page and I click on the new bill button', () => {
       test('Then I should navigate to newBill page', () => {
-        const onNavigate = (pathname) => {
-          document.body.innerHTML = ROUTES({ pathname });
-        };
+        const onNavigate = (pathname) => { document.body.innerHTML = ROUTES({ pathname }) };
   
         const billsController = new Bills({
           document,
@@ -61,7 +59,7 @@ describe("Given I am connected as an employee", () => {
         userEvent.click(newBillBtn);
   
         expect(handleClickNewBill).toHaveBeenCalled();
-        expect(screen.getByTestId("form-new-bill")).toBeTruthy();
+        expect(screen.getByTestId("form-new-bill")).toBeInTheDocument();
       });
     });
 
