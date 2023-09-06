@@ -73,7 +73,7 @@ describe("Given I am connected as an employee", () => {
       })
       
       expect(handleChangeFile).toHaveBeenCalled();
-      expect(window.alert).toHaveBeenCalledWith("Wrong file format");
+      expect(window.alert).toHaveBeenCalledWith("Seuls les fichiers aux formats .jpg/.jpeg/.png/.gif sont acceptés");
     })
   })
   
