@@ -43,7 +43,7 @@ export default class NewBill {
       }).catch(error => console.error(error))
     } else {
       this.document.querySelector(`input[data-testid="file"]`).value = null
-      alert('Wrong file format')
+      alert('Seuls les fichiers aux formats .jpg/.jpeg/.png/.gif sont acceptés')
     }
   }
   handleSubmit = e => {
